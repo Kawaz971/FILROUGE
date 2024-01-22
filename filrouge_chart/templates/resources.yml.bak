@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{.Release.Namespace}}-db-pv
+  labels:
+    type: local
+spec:
+  storageClassName: local-path
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data/{{.Release.Namespace}}/db-pv"
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{.Release.Namespace}}-wp-pv
+  labels:
+    type: local
+spec:
+  storageClassName: local-path
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data/{{.Release.Namespace}}/wp-pv"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{.Release.Namespace}}-mariadb-pvc
+spec:
+  volumeName: {{.Release.Namespace}}-db-pv
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{.Release.Namespace}}-wordpress-pvc
+spec:
+  volumeName: {{.Release.Namespace}}-wp-pv
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+

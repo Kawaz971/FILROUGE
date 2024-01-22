@@ -1,0 +1,20 @@
+wordpress:
+  host: filrouge-test.barnz.cloudns.ph
+  replicas: 1
+  image:
+    repository: barnz/wordpress-filrouge
+    tag: latest
+  imagePullPolicy: Always
+  wp_db_host: mariadb-service
+  volume_efs_id: fs-0efdb9676917c6e7e
+  hpa:
+    min: 1
+    max: 3
+    cpu: 50
+mariadb:
+  replicas: 1
+  image:
+    repository: bitnami/mariadb
+    tag: 11.2
+  imagePullPolicy: IfNotPresent
+  volume_efs_id: fs-084af6dd3fa3749fb
